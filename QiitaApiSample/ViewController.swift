@@ -24,7 +24,10 @@ class ViewController: UIViewController, UITableViewDataSource {
     }
     
     func getQiitaTitle() {
-        let url: URL = URL(string: "https://qiita.com/api/v2/items?page=1&query=user%3Anaginx")!
+        let baseUrl: URL = URL(string: "https://qiita.com/api/v2/items?page=1&per_page=10&query=")!
+        let tags: URL = URL(string: "tag%3AiOS+OR+tag%3ASwift+OR+tag%3AXcode")!
+        let stocks: URL = URL(string: "+stocks%3A%3E100")!
+        let url: URL = URL(string: "\(baseUrl)\(tags)\(stocks)")!
         
         let task: URLSessionTask = URLSession.shared.dataTask(with: url, completionHandler: {data, response, error in
             do {
