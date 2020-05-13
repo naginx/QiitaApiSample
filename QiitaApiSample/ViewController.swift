@@ -38,15 +38,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         let task: URLSessionTask = URLSession.shared.dataTask(with: url, completionHandler: {data, response, error in
             do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [Any]
+                guard let data = data else { return }
+                guard let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as? [Any] else { return }
                 let articles = json.map { (article) -> [String: Any] in
                     return article as! [String: Any]
                 }
                 
                 let count = articles.count
                 for i in 0...count-1 {
-                    let title = articles[i]["title"] as! String
-                    let articleUrl = articles[i]["url"] as! String
+                    guard let title = articles[i]["title"] as? String else { return }
+                    guard let articleUrl = articles[i]["url"] as? String else { return }
                     self.titleArray.append(title)
                     self.urlArray.append(articleUrl)
                 }
